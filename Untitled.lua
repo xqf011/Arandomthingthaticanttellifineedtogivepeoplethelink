@@ -1,3 +1,37 @@
+-- SMART UI SCALE SYSTEM
+local UserInputService = game:GetService("UserInputService")
+
+local function applySmartUIScale(gui)
+    local scale = Instance.new("UIScale")
+    scale.Parent = gui
+
+    local function update()
+        local size = workspace.CurrentCamera.ViewportSize
+        local min = math.min(size.X, size.Y)
+
+        if UserInputService.TouchEnabled then
+            if min < 600 then
+                scale.Scale = 0.7
+            elseif min < 900 then
+                scale.Scale = 0.85
+            else
+                scale.Scale = 1
+            end
+        else
+            if min < 800 then
+                scale.Scale = 0.9
+            else
+                scale.Scale = 1
+            end
+        end
+    end
+
+    update()
+    workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(update)
+end
+
+
+
 local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players          = game:GetService("Players")
@@ -3250,3 +3284,6 @@ return names
 end
 
 return PrestigeUI
+
+-- CALL THIS AFTER CREATING SCREEN GUI
+-- applySmartUIScale(ScreenGui)
