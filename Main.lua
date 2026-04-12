@@ -352,7 +352,7 @@ end)
 hookCamera()
 task.spawn(onChange)
 
-```
+
 local acrylicFrame = Instance.new("Frame")
 acrylicFrame.Name                   = "AcrylicLayer"
 acrylicFrame.Size                   = UDim2.fromScale(1, 1)
@@ -423,7 +423,7 @@ return {
 		pcall(function() acrylicFrame:Destroy() end)
 	end,
 }
-```
+
 
 end
 
@@ -521,7 +521,7 @@ end
 local function makeDraggable(frame, handle)
 local drag, ds, sp = false, nil, nil
 
-```
+
 -- Mouse drag
 handle.InputBegan:Connect(function(i)
 	if i.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -557,7 +557,7 @@ end)
 handle.InputEnded:Connect(function(i)
 	if i.UserInputType == Enum.UserInputType.Touch then drag = false end
 end)
-```
+
 
 end
 
@@ -582,7 +582,7 @@ ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-```
+
 local overlay = inst("Frame", {
 	Size                   = UDim2.fromScale(1, 1),
 	BackgroundColor3       = Color3.fromRGB(0, 0, 0),
@@ -760,7 +760,7 @@ confirmBtn.MouseButton1Click:Connect(function()
 		end)
 	end
 end)
-```
+
 
 end
 
@@ -776,7 +776,7 @@ ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-```
+
 local bg = inst("Frame", {
 	Size             = UDim2.fromScale(1, 1),
 	BackgroundColor3 = T.StartBg1,
@@ -955,7 +955,7 @@ task.spawn(function()
 	splashGui:Destroy()
 	if callback then callback() end
 end)
-```
+
 
 end
 
@@ -970,7 +970,7 @@ ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-```
+
 local btn = inst("TextButton", {
 	Size             = UDim2.new(0, 48, 0, 48),
 	AnchorPoint      = Vector2.new(1, 1),
@@ -1027,7 +1027,7 @@ btn.MouseButton1Click:Connect(function()
 end)
 
 return mGui
-```
+
 
 end
 
@@ -1042,7 +1042,7 @@ local self = setmetatable({}, PrestigeUI)
 if type(config) == "string" then config = { Title = config } end
 config = config or {}
 
-```
+
 -- Apply theme
 local themeName = (config.Theme or "prestige"):lower()
 T = Themes[themeName] or Themes["prestige"]
@@ -1088,7 +1088,7 @@ else
 end
 
 return self
-```
+
 
 end
 
@@ -1101,7 +1101,7 @@ Parent         = pGui,
 })
 self.ScreenGui = gui
 
-```
+
 local useAcrylic  = config.Acrylic == true
 local WIN_RADIUS  = 14
 local winBgTransp = useAcrylic and 0.52 or 0
@@ -1401,7 +1401,7 @@ end
 
 -- Register keybind display if tab added later
 self._registeredKeybinds = keybinds
-```
+
 
 end
 
@@ -1442,7 +1442,7 @@ self._tabOrder = self._tabOrder + 1
 local TAB_TITLE = "Home"
 local mobile    = self._mobile
 
-```
+
 local btn = inst("Frame", {
 	Name             = "TabBtn_Home",
 	Size             = UDim2.new(1, 0, 0, TAB_H),
@@ -2194,7 +2194,7 @@ clickArea.MouseLeave:Connect(function()
 	end
 end)
 clickArea.MouseButton1Click:Connect(function() self:_switchTab(TAB_TITLE) end)
-```
+
 
 end
 
@@ -2207,7 +2207,7 @@ local tabTitle = config.Title or ("Tab " .. (self._tabOrder + 1))
 local tabIcon  = config.Icon
 local mobile   = self._mobile
 
-```
+
 self._tabOrder = self._tabOrder + 1
 
 local btn = inst("Frame", {
@@ -2375,7 +2375,7 @@ if not self._activeTab then self:_switchTab(tabTitle) end
 local tabObj = { _inner = inner, _order = 2, _win = self }
 setmetatable(tabObj, { __index = PrestigeUI._TabAPI })
 return tabObj
-```
+
 
 end
 
@@ -2452,7 +2452,7 @@ local isPrimary = opts.Primary or false
 local bgN = isPrimary and T.Primary or T.Surface
 local bgH = isPrimary and T.PrimaryHover or T.SurfaceHover
 
-```
+
 local btn = inst("TextButton", {
 	Size             = UDim2.new(1, 0, 0, opts.Height or 36),
 	BackgroundColor3 = bgN,
@@ -2489,14 +2489,14 @@ btn.MouseButton1Down:Connect(function() tw(btn, fast, { BackgroundColor3 = T.Sur
 btn.MouseButton1Up:Connect(function()   tw(btn, fast, { BackgroundColor3 = bgH }) end)
 btn.MouseButton1Click:Connect(function() if callback then callback() end end)
 return btn
-```
+
 
 end
 
 function PrestigeUI._TabAPI:AddInput(placeholder, callback, opts)
 opts = opts or {}
 
-```
+
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, opts.Height or 38),
 	BackgroundColor3 = T.Surface,
@@ -2540,7 +2540,7 @@ box.FocusLost:Connect(function(enter)
 	if callback then callback(box.Text, enter) end
 end)
 return box
-```
+
 
 end
 
@@ -2549,7 +2549,7 @@ opts  = opts or {}
 local state = default or false
 local style = opts.Style or self._win._toggleStyle or "box"
 
-```
+
 local row = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 40),
 	BackgroundColor3 = T.Surface,
@@ -2665,7 +2665,7 @@ inst("TextButton", {
 end)
 
 return { Get = function() return state end, Set = set }
-```
+
 
 end
 
@@ -2675,7 +2675,7 @@ min   = min  or 0
 max   = max  or 100
 local value = math.clamp(default or min, min, max)
 
-```
+
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 58),
 	BackgroundColor3 = T.Surface,
@@ -2794,7 +2794,7 @@ return {
 		tw(knob, fast, { Position = UDim2.new(r, -6, 0.5, -6) })
 	end,
 }
-```
+
 
 end
 
@@ -2803,7 +2803,7 @@ opts = opts or {}
 local selected = opts.Default or items[1] or ""
 local open     = false
 
-```
+
 local HDR_H   = 36
 local ITEM_H  = 32
 local MAX_VIS = math.min(#items, 6)
@@ -3038,7 +3038,7 @@ return {
 		if itemBtns[v] then setActive(itemBtns[v], true) end
 	end,
 }
-```
+
 
 end
 
@@ -3050,7 +3050,7 @@ opts = opts or {}
 local currentKey = defaultKey or Enum.KeyCode.Unknown
 local listening  = false
 
-```
+
 local row = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 40),
 	BackgroundColor3 = T.Surface,
@@ -3138,7 +3138,7 @@ return {
 		keyLbl.Text = k.Name
 	end,
 }
-```
+
 
 end
 
@@ -3149,7 +3149,7 @@ function PrestigeUI:Toast(message, kind, duration)
 kind     = kind     or "info"
 duration = duration or 3
 
-```
+
 local colorMap = { success = T.Success, warning = T.Warning, error = T.Error, info = T.Info }
 local iconMap  = { success = "circle-check", warning = "triangle-alert", error = "circle-x", info = "info" }
 local accent   = colorMap[kind] or T.Info
@@ -3229,7 +3229,7 @@ task.delay(duration, function()
 	task.delay(0.25, function() if toast.Parent then toast:Destroy() end end)
 end)
 return toast
-```
+
 
 end
 
