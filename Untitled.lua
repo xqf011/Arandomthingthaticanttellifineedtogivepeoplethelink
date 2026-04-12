@@ -3287,3 +3287,59 @@ return PrestigeUI
 
 -- CALL THIS AFTER CREATING SCREEN GUI
 -- applySmartUIScale(ScreenGui)
+
+
+--// 🔥 FIXED SMART UI SCALE (auto + reliable)
+task.spawn(function()
+    local CoreGui = game:GetService("CoreGui")
+    local UIS = game:GetService("UserInputService")
+
+    local function getScale()
+        local size = workspace.CurrentCamera.ViewportSize
+        local minAxis = math.min(size.X, size.Y)
+
+        if UIS.TouchEnabled then
+            if minAxis <= 480 then
+                return 0.65
+            elseif minAxis <= 768 then
+                return 0.75
+            elseif minAxis <= 1024 then
+                return 0.85
+            else
+                return 0.9
+            end
+        else
+            return 1
+        end
+    end
+
+    local function apply()
+        for _, gui in ipairs(CoreGui:GetChildren()) do
+            if gui:IsA("ScreenGui") then
+                if not gui:FindFirstChild("AutoScale") then
+                    local scale = Instance.new("UIScale")
+                    scale.Name = "AutoScale"
+                    scale.Scale = getScale()
+                    scale.Parent = gui
+
+                    workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
+                        scale.Scale = getScale()
+                    end)
+                end
+            end
+        end
+    end
+
+    -- wait for UI to fully load
+    task.wait(1)
+    apply()
+
+    -- re-apply if new UI appears
+    CoreGui.ChildAdded:Connect(function(child)
+        if child:IsA("ScreenGui") then
+            task.wait(0.2)
+            apply()
+        end
+    end)
+end)
+
