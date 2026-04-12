@@ -214,12 +214,12 @@ end
 --  ACRYLIC / DOF (unchanged internals)
 -- ─────────────────────────────────────────────
 local function _map(value, inMin, inMax, outMin, outMax)
-return (value - inMin) _ (outMax - outMin) / (inMax - inMin) + outMin
+return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 end
 
 local function _viewportPointToWorld(location, distance)
 local unitRay = Camera:ScreenPointToRay(location.X, location.Y)
-return unitRay.Origin + unitRay.Direction _ distance
+return unitRay.Origin + unitRay.Direction * distance
 end
 
 local function _getOffset()
@@ -1263,8 +1263,8 @@ local function mkTitleBtn(xOff, iconName, fallbackText, accentOnHover)
 	return clk, btn
 end
 
-local closeClk, _ = mkTitleBtn(-36, "x", "✕", T.Error)
-local minClk,   _ = mkTitleBtn(-70, "minus", "--", T.SurfaceActive)
+local closeClk, * = mkTitleBtn(-36, "x", "✕", T.Error)
+local minClk,   * = mkTitleBtn(-70, "minus", "--", T.SurfaceActive)
 
 -- Keybind indicator label in titlebar (desktop only)
 if not mobile then
@@ -2031,7 +2031,7 @@ task.spawn(function()
 		local pages = Players:GetFriendsAsync(localPlayer.UserId)
 		local count = 0
 		repeat
-			for _ in ipairs(pages:GetCurrentPage()) do count = count + 1 end
+			for * in ipairs(pages:GetCurrentPage()) do count = count + 1 end
 			if not pages.IsFinished then pages:AdvanceToNextPageAsync() end
 		until pages.IsFinished
 		realTotal = count
@@ -2751,7 +2751,7 @@ corner(knob, 7)
 local dragging = false
 local function update(x)
 	local rel = math.clamp((x - track.AbsolutePosition.X) / track.AbsoluteSize.X, 0, 1)
-	value = math.floor(min + rel _ (max - min) + 0.5)
+	value = math.floor(min + rel * (max - min) + 0.5)
 	valLbl.Text = tostring(value)
 	tw(fill, fast, { Size     = UDim2.new(rel, 0, 1, 0) })
 	tw(knob, fast, { Position = UDim2.new(rel, -6, 0.5, -6) })
@@ -2807,7 +2807,7 @@ local open     = false
 local HDR_H   = 36
 local ITEM_H  = 32
 local MAX_VIS = math.min(#items, 6)
-local LIST_H  = MAX_VIS _ ITEM_H + 8
+local LIST_H  = MAX_VIS * ITEM_H + 8
 
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, HDR_H),
