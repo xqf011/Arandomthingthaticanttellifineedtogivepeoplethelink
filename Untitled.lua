@@ -1092,7 +1092,7 @@ return self
 
 end
 
-function PrestigeUI:buildWindow(config, pGui, title, W, H, mobile)
+function PrestigeUI:_buildWindow(config, pGui, title, W, H, mobile)
 local gui = inst("ScreenGui", {
 Name           = "PrestigeUI*" .. title,
 ResetOnSpawn   = false,
