@@ -6,7 +6,6 @@ local Lighting         = game:GetService("Lighting")
 local Camera           = workspace.CurrentCamera
 local isStudio         = RunService:IsStudio()
 
-
 local function _map(value, inMin, inMax, outMin, outMax)
 	return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 end
@@ -169,7 +168,7 @@ local function createAcrylicComponent(parentFrame, windowBg)
 	local tint = Instance.new("ImageLabel")
 	tint.Image              = "rbxassetid://9968344105"
 	tint.ImageTransparency  = 0.65
-	tint.ImageColor3        = Color3.fromRGB(20, 15, 30)
+	tint.ImageColor3        = Color3.fromRGB(20, 20, 30)
 	tint.ScaleType          = Enum.ScaleType.Tile
 	tint.TileSize           = UDim2.new(0, 128, 0, 128)
 	tint.Size               = UDim2.fromScale(1, 1)
@@ -494,8 +493,8 @@ function PrestigeUI.new(config)
 		return btn
 	end
 
-	local closeBtn = mkTbBtn(-34, "â")
-	local minBtn   = mkTbBtn(-64, "â")
+	local closeBtn = mkTbBtn(-34, "X")
+	local minBtn   = mkTbBtn(-64, "-")
 
 	local minimized = false
 	minBtn.MouseButton1Click:Connect(function()
@@ -1131,7 +1130,7 @@ function PrestigeUI:CreateHomeTab(config)
 		local valLbl2 = inst("TextLabel", {
 			Size                   = UDim2.new(1, 0, 0, 16),
 			BackgroundTransparency = 1,
-			Text                   = "â",
+			Text                   = "-",
 			TextColor3             = accent,
 			TextSize               = 14,
 			Font                   = Enum.Font.GothamBold,
@@ -1295,9 +1294,9 @@ function PrestigeUI:CreateHomeTab(config)
 			copying = true
 			pcall(function() setclipboard("https://discord.gg/" .. config.DiscordInvite) end)
 			pillLbl.Text = "Copied!"
-			tw(pill,    fast, { BackgroundColor3 = Color3.fromRGB(20, 12, 40) })
-			tw(pillLbl, fast, { TextColor3 = Color3.fromRGB(180, 130, 255) })
-			if pillIcon then tw(pillIcon, fast, { ImageColor3 = Color3.fromRGB(180, 130, 255) }) end
+			tw(pill,    fast, { BackgroundColor3 = Color3.fromRGB(20, 50, 30) })
+			tw(pillLbl, fast, { TextColor3 = Color3.fromRGB(100, 220, 130) })
+			if pillIcon then tw(pillIcon, fast, { ImageColor3 = Color3.fromRGB(100, 220, 130) }) end
 			task.delay(2, function()
 				if pill.Parent then
 					pillLbl.Text = "discord.gg/" .. config.DiscordInvite
@@ -1641,10 +1640,10 @@ function PrestigeUI._TabAPI:AddButton(text, callback, opts)
 		Parent                 = btn,
 	})
 
-	btn.MouseEnter:Connect(function()    tw(btn, fast, { BackgroundColor3 = bgH }) end)
-	btn.MouseLeave:Connect(function()    tw(btn, fast, { BackgroundColor3 = bgN }) end)
-	btn.MouseButton1Down:Connect(function()  tw(btn, fast, { BackgroundColor3 = T.SurfaceActive }) end)
-	btn.MouseButton1Up:Connect(function()    tw(btn, fast, { BackgroundColor3 = bgH }) end)
+	btn.MouseEnter:Connect(function()       tw(btn, fast, { BackgroundColor3 = bgH }) end)
+	btn.MouseLeave:Connect(function()       tw(btn, fast, { BackgroundColor3 = bgN }) end)
+	btn.MouseButton1Down:Connect(function() tw(btn, fast, { BackgroundColor3 = T.SurfaceActive }) end)
+	btn.MouseButton1Up:Connect(function()   tw(btn, fast, { BackgroundColor3 = bgH }) end)
 	btn.MouseButton1Click:Connect(function() if callback then callback() end end)
 	return btn
 end
@@ -1668,18 +1667,18 @@ function PrestigeUI._TabAPI:AddInput(placeholder, callback, opts)
 	if iconImg then iconW = 14 + 6 end
 
 	local box = inst("TextBox", {
-		Size              = UDim2.new(1, -(12 + iconW), 1, 0),
-		Position          = UDim2.new(0, 10 + iconW, 0, 0),
+		Size                   = UDim2.new(1, -(12 + iconW), 1, 0),
+		Position               = UDim2.new(0, 10 + iconW, 0, 0),
 		BackgroundTransparency = 1,
-		PlaceholderText   = placeholder or "",
-		PlaceholderColor3 = T.TextMuted,
-		Text              = opts.Default or "",
-		TextColor3        = T.TextPrimary,
-		TextSize          = (opts.Default and opts.Default ~= "") and 20 or 14,
-		Font              = Enum.Font.Gotham,
-		ClearTextOnFocus  = false,
-		ZIndex            = 6,
-		Parent            = container,
+		PlaceholderText        = placeholder or "",
+		PlaceholderColor3      = T.TextMuted,
+		Text                   = opts.Default or "",
+		TextColor3             = T.TextPrimary,
+		TextSize               = (opts.Default and opts.Default ~= "") and 20 or 14,
+		Font                   = Enum.Font.Gotham,
+		ClearTextOnFocus       = false,
+		ZIndex                 = 6,
+		Parent                 = container,
 	})
 
 	box:GetPropertyChangedSignal("Text"):Connect(function()
@@ -2025,16 +2024,16 @@ function PrestigeUI._TabAPI:AddDropdown(label, items, callback, opts)
 	})
 
 	local scrollList = inst("ScrollingFrame", {
-		Size                 = UDim2.new(1, 0, 0, LIST_H),
-		Position             = UDim2.new(0, 0, 0, HDR_H + 1),
+		Size                   = UDim2.new(1, 0, 0, LIST_H),
+		Position               = UDim2.new(0, 0, 0, HDR_H + 1),
 		BackgroundTransparency = 1,
-		BorderSizePixel      = 0,
-		ScrollBarThickness   = 3,
-		ScrollBarImageColor3 = T.ScrollBar,
-		CanvasSize           = UDim2.new(0, 0, 0, 0),
-		ScrollingDirection   = Enum.ScrollingDirection.Y,
-		ZIndex               = 5,
-		Parent               = container,
+		BorderSizePixel        = 0,
+		ScrollBarThickness     = 3,
+		ScrollBarImageColor3   = T.ScrollBar,
+		CanvasSize             = UDim2.new(0, 0, 0, 0),
+		ScrollingDirection     = Enum.ScrollingDirection.Y,
+		ZIndex                 = 5,
+		Parent                 = container,
 	})
 	mkPad(scrollList, 4, 6, 4, 6)
 	local listLayout = inst("UIListLayout", {
@@ -2051,7 +2050,7 @@ function PrestigeUI._TabAPI:AddDropdown(label, items, callback, opts)
 	local function setActive(ib, on)
 		tw(ib, fast, {
 			BackgroundTransparency = on and 0 or 1,
-			BackgroundColor3       = on and Color3.fromRGB(30, 15, 50) or T.SurfaceHover,
+			BackgroundColor3       = on and Color3.fromRGB(50, 24, 12) or T.SurfaceHover,
 		})
 		local lbl = ib:FindFirstChild("ItemLabel")
 		if lbl then
@@ -2090,7 +2089,7 @@ function PrestigeUI._TabAPI:AddDropdown(label, items, callback, opts)
 		local ib = inst("TextButton", {
 			Name                   = "Item_" .. i,
 			Size                   = UDim2.new(1, 0, 0, ITEM_H),
-			BackgroundColor3       = isSel and Color3.fromRGB(30, 15, 50) or T.SurfaceHover,
+			BackgroundColor3       = isSel and Color3.fromRGB(50, 24, 12) or T.SurfaceHover,
 			BackgroundTransparency = isSel and 0 or 1,
 			Text                   = "",
 			BorderSizePixel        = 0,
@@ -2224,12 +2223,12 @@ function PrestigeUI:Toast(message, kind, duration)
 
 	local iconPlaced = mkIcon(toast, iconName, 15, accent, 102, Vector2.new(0, 0.5), UDim2.new(0, 12, 0.5, 0))
 	if not iconPlaced then
-		local fallback = { success = "â", warning = "â ", error = "â", info = "â¹" }
+		local fallback = { success = "OK", warning = "!", error = "X", info = "i" }
 		inst("TextLabel", {
 			Size                   = UDim2.new(0, 30, 1, 0),
 			Position               = UDim2.new(0, 6, 0, 0),
 			BackgroundTransparency = 1,
-			Text                   = fallback[kind] or "â¹",
+			Text                   = fallback[kind] or "i",
 			TextColor3             = accent,
 			TextSize               = 14,
 			Font                   = Enum.Font.GothamBold,
