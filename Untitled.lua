@@ -1,51 +1,22 @@
--- SMART UI SCALE SYSTEM
-local UserInputService = game:GetService("UserInputService")
+– PrestigeUI v2.0
+– Enhanced with: Mobile Support, Touch Drag, Themes, Keybind System,
+–                Key System, Animated Start Screen, Mobile Toggle Button,
+–                PC Toggle (Left Ctrl), Close/Minimize Redesign
 
-local function applySmartUIScale(gui)
-    local scale = Instance.new("UIScale")
-    scale.Parent = gui
-
-    local function update()
-        local size = workspace.CurrentCamera.ViewportSize
-        local min = math.min(size.X, size.Y)
-
-        if UserInputService.TouchEnabled then
-            if min < 600 then
-                scale.Scale = 0.7
-            elseif min < 900 then
-                scale.Scale = 0.85
-            else
-                scale.Scale = 1
-            end
-        else
-            if min < 800 then
-                scale.Scale = 0.9
-            else
-                scale.Scale = 1
-            end
-        end
-    end
-
-    update()
-    workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(update)
-end
-
-
-
-local TweenService     = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
-local Players          = game:GetService("Players")
-local RunService       = game:GetService("RunService")
-local Lighting         = game:GetService("Lighting")
+local TweenService     = game:GetService(“TweenService”)
+local UserInputService = game:GetService(“UserInputService”)
+local Players          = game:GetService(“Players”)
+local RunService       = game:GetService(“RunService”)
+local Lighting         = game:GetService(“Lighting”)
 local Camera           = workspace.CurrentCamera
 local isStudio         = RunService:IsStudio()
 
--- ─────────────────────────────────────────────
---  THEME REGISTRY
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  THEME REGISTRY
+– ─────────────────────────────────────────────
 local Themes = {}
 
-Themes["prestige"] = {
+Themes[“prestige”] = {
 WindowBg      = Color3.fromRGB(28,  28,  28),
 WindowBorder  = Color3.fromRGB(52,  52,  52),
 TitleBg       = Color3.fromRGB(20,  20,  20),
@@ -83,7 +54,7 @@ StartBg2      = Color3.fromRGB(28,  28,  28),
 StartAccent   = Color3.fromRGB(138, 75,  210),
 }
 
-Themes["ocean"] = {
+Themes[“ocean”] = {
 WindowBg      = Color3.fromRGB(10,  22,  38),
 WindowBorder  = Color3.fromRGB(25,  55,  85),
 TitleBg       = Color3.fromRGB(8,   18,  32),
@@ -121,7 +92,7 @@ StartBg2      = Color3.fromRGB(10,  22,  38),
 StartAccent   = Color3.fromRGB(0,   145, 210),
 }
 
-Themes["nebula"] = {
+Themes[“nebula”] = {
 WindowBg      = Color3.fromRGB(8,   6,   20),
 WindowBorder  = Color3.fromRGB(45,  30,  80),
 TitleBg       = Color3.fromRGB(6,   4,   16),
@@ -159,7 +130,7 @@ StartBg2      = Color3.fromRGB(8,   6,   20),
 StartAccent   = Color3.fromRGB(180, 50,  220),
 }
 
-Themes["ember"] = {
+Themes[“ember”] = {
 WindowBg      = Color3.fromRGB(20,  12,  8),
 WindowBorder  = Color3.fromRGB(70,  35,  20),
 TitleBg       = Color3.fromRGB(14,  8,   4),
@@ -197,7 +168,7 @@ StartBg2      = Color3.fromRGB(20,  12,  8),
 StartAccent   = Color3.fromRGB(230, 90,  30),
 }
 
-Themes["arctic"] = {
+Themes[“arctic”] = {
 WindowBg      = Color3.fromRGB(240, 244, 252),
 WindowBorder  = Color3.fromRGB(200, 210, 230),
 TitleBg       = Color3.fromRGB(225, 232, 248),
@@ -235,18 +206,18 @@ StartBg2      = Color3.fromRGB(240, 244, 252),
 StartAccent   = Color3.fromRGB(60,  120, 220),
 }
 
-local T = Themes["prestige"] -- default, overwritten on .new()
+local T = Themes[“prestige”] – default, overwritten on .new()
 
--- ─────────────────────────────────────────────
---  MOBILE DETECTION
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  MOBILE DETECTION
+– ─────────────────────────────────────────────
 local function isMobile()
 return UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 end
 
--- ─────────────────────────────────────────────
---  ACRYLIC / DOF (unchanged internals)
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  ACRYLIC / DOF (unchanged internals)
+– ─────────────────────────────────────────────
 local function _map(value, inMin, inMax, outMin, outMax)
 return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
 end
@@ -269,8 +240,8 @@ end
 
 local function _createAcrylicPart()
 if not _acrylicSupported() then return nil end
-local part = Instance.new("Part")
-part.Name         = "PrestigeUIBlur"
+local part = Instance.new(“Part”)
+part.Name         = “PrestigeUIBlur”
 part.Color        = Color3.new(0, 0, 0)
 part.Material     = Enum.Material.Glass
 part.Size         = Vector3.new(1.04, 1.12, 0)
@@ -279,7 +250,7 @@ part.CanCollide   = false
 part.Locked       = true
 part.CastShadow   = false
 part.Transparency = 0.98
-local mesh = Instance.new("SpecialMesh")
+local mesh = Instance.new(“SpecialMesh”)
 mesh.MeshType = Enum.MeshType.Brick
 mesh.Offset   = Vector3.new(0, 0, -0.000001)
 mesh.Parent   = part
@@ -290,12 +261,12 @@ local function _initDOF()
 if not _acrylicSupported() then return end
 local existing
 for _, v in ipairs(Lighting:GetChildren()) do
-if v:IsA("DepthOfFieldEffect") and v.Name ~= "PrestigeUIBlur" then
+if v:IsA(“DepthOfFieldEffect”) and v.Name ~= “PrestigeUIBlur” then
 existing = v; break
 end
 end
 if not existing then
-existing = Instance.new("DepthOfFieldEffect")
+existing = Instance.new(“DepthOfFieldEffect”)
 existing.FarIntensity  = 0
 existing.NearIntensity = 0
 existing.FocusDistance = 500
@@ -303,10 +274,10 @@ existing.InFocusRadius = 500
 existing.Enabled       = true
 existing.Parent        = Lighting
 end
-local blurDOF = Lighting:FindFirstChild("PrestigeUIBlur")
+local blurDOF = Lighting:FindFirstChild(“PrestigeUIBlur”)
 if not blurDOF then
 blurDOF = existing:Clone()
-blurDOF.Name          = "PrestigeUIBlur"
+blurDOF.Name          = “PrestigeUIBlur”
 blurDOF.NearIntensity = 1
 blurDOF.Parent        = Lighting
 end
@@ -315,16 +286,16 @@ blurDOF.FarIntensity  = existing.FarIntensity
 blurDOF.FocusDistance = existing.FocusDistance
 blurDOF.InFocusRadius = existing.InFocusRadius
 end
-existing:GetPropertyChangedSignal("FarIntensity"):Connect(sync)
-existing:GetPropertyChangedSignal("FocusDistance"):Connect(sync)
-existing:GetPropertyChangedSignal("InFocusRadius"):Connect(sync)
+existing:GetPropertyChangedSignal(“FarIntensity”):Connect(sync)
+existing:GetPropertyChangedSignal(“FocusDistance”):Connect(sync)
+existing:GetPropertyChangedSignal(“InFocusRadius”):Connect(sync)
 end
 
 local function _getBlurFolder()
-local folder = Camera:FindFirstChild("PrestigeUI Blur Elements")
+local folder = Camera:FindFirstChild(“PrestigeUI Blur Elements”)
 if not folder then
-folder = Instance.new("Folder")
-folder.Name   = "PrestigeUI Blur Elements"
+folder = Instance.new(“Folder”)
+folder.Name   = “PrestigeUI Blur Elements”
 folder.Parent = Camera
 end
 return folder
@@ -337,7 +308,7 @@ local part = _createAcrylicPart()
 if not part then return nil end
 part.Color  = windowBg or Color3.fromRGB(28, 28, 28)
 part.Parent = _getBlurFolder()
-local mesh     = part:FindFirstChildWhichIsA("SpecialMesh")
+local mesh     = part:FindFirstChildWhichIsA(“SpecialMesh”)
 local cleanups = {}
 local positions = {
 topLeft     = Vector2.new(),
@@ -373,20 +344,20 @@ end
 local function hookCamera()
 local cam = workspace.CurrentCamera
 if not cam then return end
-cleanups[#cleanups+1] = cam:GetPropertyChangedSignal("CFrame"):Connect(render)
-cleanups[#cleanups+1] = cam:GetPropertyChangedSignal("ViewportSize"):Connect(render)
-cleanups[#cleanups+1] = cam:GetPropertyChangedSignal("FieldOfView"):Connect(render)
+cleanups[#cleanups+1] = cam:GetPropertyChangedSignal(“CFrame”):Connect(render)
+cleanups[#cleanups+1] = cam:GetPropertyChangedSignal(“ViewportSize”):Connect(render)
+cleanups[#cleanups+1] = cam:GetPropertyChangedSignal(“FieldOfView”):Connect(render)
 task.spawn(render)
 end
-cleanups[#cleanups+1] = parentFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(onChange)
-cleanups[#cleanups+1] = parentFrame:GetPropertyChangedSignal("AbsolutePosition"):Connect(onChange)
+cleanups[#cleanups+1] = parentFrame:GetPropertyChangedSignal(“AbsoluteSize”):Connect(onChange)
+cleanups[#cleanups+1] = parentFrame:GetPropertyChangedSignal(“AbsolutePosition”):Connect(onChange)
 part.Destroying:Connect(function()
 for _, c in ipairs(cleanups) do pcall(function() c:Disconnect() end) end
 end)
 hookCamera()
 task.spawn(onChange)
 
-
+```
 local acrylicFrame = Instance.new("Frame")
 acrylicFrame.Name                   = "AcrylicLayer"
 acrylicFrame.Size                   = UDim2.fromScale(1, 1)
@@ -457,19 +428,19 @@ return {
 		pcall(function() acrylicFrame:Destroy() end)
 	end,
 }
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  ICONS
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  ICONS
+– ─────────────────────────────────────────────
 local LucideIcons = nil
 local function getLucide()
 if LucideIcons then return LucideIcons end
 local ok, result = pcall(function()
 return loadstring(game:HttpGet(
-"https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Icon-Library/refs/heads/master/LucideIcons.luau"
+“https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Icon-Library/refs/heads/master/LucideIcons.luau”
 ))()
 end)
 if ok then LucideIcons = result end
@@ -477,17 +448,17 @@ return LucideIcons
 end
 
 local function iconAsset(name)
-if not name or name == "" then return nil end
+if not name or name == “” then return nil end
 local lib = getLucide()
 if not lib then return nil end
 local id = lib[name]
 if not id then return nil end
-return "rbxassetid://" .. tostring(id)
+return “rbxassetid://” .. tostring(id)
 end
 
--- ─────────────────────────────────────────────
---  HELPERS
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  HELPERS
+– ─────────────────────────────────────────────
 local function inst(class, props)
 local o = Instance.new(class)
 for k, v in pairs(props) do o[k] = v end
@@ -495,14 +466,14 @@ return o
 end
 
 local function corner(p, r)
-local c = Instance.new("UICorner")
+local c = Instance.new(“UICorner”)
 c.CornerRadius = UDim.new(0, r or 6)
 c.Parent = p
 return c
 end
 
 local function mkStroke(p, col, thick)
-local s = Instance.new("UIStroke")
+local s = Instance.new(“UIStroke”)
 s.Color     = col   or T.Border
 s.Thickness = thick or 1
 s.Parent    = p
@@ -510,7 +481,7 @@ return s
 end
 
 local function mkPad(p, t, r, b, l)
-local u = Instance.new("UIPadding")
+local u = Instance.new(“UIPadding”)
 u.PaddingTop    = UDim.new(0, t or 8)
 u.PaddingRight  = UDim.new(0, r or 8)
 u.PaddingBottom = UDim.new(0, b or 8)
@@ -535,7 +506,7 @@ color       = color       or T.IconTint
 zIndex      = zIndex      or 3
 anchorPoint = anchorPoint or Vector2.new(0, 0.5)
 position    = position    or UDim2.new(0, 0, 0.5, 0)
-local img = inst("ImageLabel", {
+local img = inst(“ImageLabel”, {
 Size                   = UDim2.new(0, size, 0, size),
 AnchorPoint            = anchorPoint,
 Position               = position,
@@ -549,13 +520,13 @@ Parent                 = parent,
 return img
 end
 
--- ─────────────────────────────────────────────
---  MOBILE-AWARE DRAG
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  MOBILE-AWARE DRAG
+– ─────────────────────────────────────────────
 local function makeDraggable(frame, handle)
 local drag, ds, sp = false, nil, nil
 
-
+```
 -- Mouse drag
 handle.InputBegan:Connect(function(i)
 	if i.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -591,32 +562,32 @@ end)
 handle.InputEnded:Connect(function(i)
 	if i.UserInputType == Enum.UserInputType.Touch then drag = false end
 end)
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  LAYOUT CONSTANTS (responsive)
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  LAYOUT CONSTANTS (responsive)
+– ─────────────────────────────────────────────
 local SIDEBAR_W    = 152
 local TITLEBAR_H   = 42
 local TAB_H        = 38
 local TAB_ICON_S   = 15
 local TITLE_ICON_S = 16
 
--- ─────────────────────────────────────────────
---  KEY SYSTEM
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  KEY SYSTEM
+– ─────────────────────────────────────────────
 local function showKeySystem(config, callback)
-local pGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-local keyGui = inst("ScreenGui", {
-Name           = "PrestigeUI_KeySystem",
+local pGui = Players.LocalPlayer:WaitForChild(“PlayerGui”)
+local keyGui = inst(“ScreenGui”, {
+Name           = “PrestigeUI_KeySystem”,
 ResetOnSpawn   = false,
 ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-
+```
 local overlay = inst("Frame", {
 	Size                   = UDim2.fromScale(1, 1),
 	BackgroundColor3       = Color3.fromRGB(0, 0, 0),
@@ -794,23 +765,23 @@ confirmBtn.MouseButton1Click:Connect(function()
 		end)
 	end
 end)
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  ANIMATED START / SPLASH SCREEN
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  ANIMATED START / SPLASH SCREEN
+– ─────────────────────────────────────────────
 local function showStartScreen(config, callback)
-local pGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-local splashGui = inst("ScreenGui", {
-Name           = "PrestigeUI_Splash",
+local pGui = Players.LocalPlayer:WaitForChild(“PlayerGui”)
+local splashGui = inst(“ScreenGui”, {
+Name           = “PrestigeUI_Splash”,
 ResetOnSpawn   = false,
 ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-
+```
 local bg = inst("Frame", {
 	Size             = UDim2.fromScale(1, 1),
 	BackgroundColor3 = T.StartBg1,
@@ -989,22 +960,22 @@ task.spawn(function()
 	splashGui:Destroy()
 	if callback then callback() end
 end)
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  MOBILE TOGGLE BUTTON
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  MOBILE TOGGLE BUTTON
+– ─────────────────────────────────────────────
 local function createMobileToggle(pGui, toggleCallback)
-local mGui = inst("ScreenGui", {
-Name           = "PrestigeUI_MobileToggle",
+local mGui = inst(“ScreenGui”, {
+Name           = “PrestigeUI_MobileToggle”,
 ResetOnSpawn   = false,
 ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 
-
+```
 local btn = inst("TextButton", {
 	Size             = UDim2.new(0, 48, 0, 48),
 	AnchorPoint      = Vector2.new(1, 1),
@@ -1061,22 +1032,22 @@ btn.MouseButton1Click:Connect(function()
 end)
 
 return mGui
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  MAIN CLASS
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  MAIN CLASS
+– ─────────────────────────────────────────────
 local PrestigeUI = {}
 PrestigeUI.__index = PrestigeUI
 
 function PrestigeUI.new(config)
 local self = setmetatable({}, PrestigeUI)
-if type(config) == "string" then config = { Title = config } end
+if type(config) == “string” then config = { Title = config } end
 config = config or {}
 
-
+```
 -- Apply theme
 local themeName = (config.Theme or "prestige"):lower()
 T = Themes[themeName] or Themes["prestige"]
@@ -1122,20 +1093,20 @@ else
 end
 
 return self
-
+```
 
 end
 
-function PrestigeUI:_buildWindow(config, pGui, title, W, H, mobile)
-local gui = inst("ScreenGui", {
-Name           = "PrestigeUI_" .. title,
+function PrestigeUI:*buildWindow(config, pGui, title, W, H, mobile)
+local gui = inst(“ScreenGui”, {
+Name           = “PrestigeUI*” .. title,
 ResetOnSpawn   = false,
 ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
 })
 self.ScreenGui = gui
 
-
+```
 local useAcrylic  = config.Acrylic == true
 local WIN_RADIUS  = 14
 local winBgTransp = useAcrylic and 0.52 or 0
@@ -1298,7 +1269,7 @@ local function mkTitleBtn(xOff, iconName, fallbackText, accentOnHover)
 end
 
 local closeClk, _ = mkTitleBtn(-36, "x", "✕", T.Error)
-local minClk,   _ = mkTitleBtn(-70, "minus", "--", T.SurfaceActive)
+local minClk,   _ = mkTitleBtn(-70, "minus", "–", T.SurfaceActive)
 
 -- Keybind indicator label in titlebar (desktop only)
 if not mobile then
@@ -1435,7 +1406,7 @@ end
 
 -- Register keybind display if tab added later
 self._registeredKeybinds = keybinds
-
+```
 
 end
 
@@ -1467,16 +1438,16 @@ end
 end)
 end
 
--- ─────────────────────────────────────────────
---  HOME TAB
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  HOME TAB
+– ─────────────────────────────────────────────
 function PrestigeUI:CreateHomeTab(config)
 config = config or {}
 self._tabOrder = self._tabOrder + 1
-local TAB_TITLE = "Home"
+local TAB_TITLE = “Home”
 local mobile    = self._mobile
 
-
+```
 local btn = inst("Frame", {
 	Name             = "TabBtn_Home",
 	Size             = UDim2.new(1, 0, 0, TAB_H),
@@ -1672,7 +1643,7 @@ local dateLbl = inst("TextLabel", {
 })
 
 local function updateClock()
-	local t = os.date("_t")
+	local t = os.date("*t")
 	clockLbl.Text = string.format("%02d:%02d:%02d", t.hour, t.min, t.sec)
 	dateLbl.Text  = string.format("%02d/%02d/%04d", t.day, t.month, t.year)
 end
@@ -1751,7 +1722,7 @@ for _, v in ipairs(config.UnsupportedExecutors or {}) do if v:lower() == execNam
 local gameName = "Unknown"
 pcall(function() gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
 
-local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing() * 1000)).."ms", T.Info)
+local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing()*1000)).."ms", T.Info)
 local playersChipLbl = mkChip(2, #Players:GetPlayers().."/"..Players.MaxPlayers, T.Success)
 mkChip(3, gameName, T.Primary)
 mkChip(4, execName, execStatusColor)
@@ -1760,14 +1731,14 @@ if mobile then mkChip(5, "Mobile", T.Warning) end
 task.spawn(function()
 	while panel.Parent do
 		pcall(function()
-			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing() * 1000)).."ms"
+			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing()*1000)).."ms"
 			playersChipLbl.Text = #Players:GetPlayers().."/"..Players.MaxPlayers
 		end)
 		task.wait(3)
 	end
 end)
 
--- Main row (changelog + friends) -- kept same as original
+-- Main row (changelog + friends) – kept same as original
 local mainRow = inst("Frame", {
 	Size                   = UDim2.new(1, 0, 0, 300),
 	BackgroundTransparency = 1,
@@ -2228,20 +2199,20 @@ clickArea.MouseLeave:Connect(function()
 	end
 end)
 clickArea.MouseButton1Click:Connect(function() self:_switchTab(TAB_TITLE) end)
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  CREATE TAB
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  CREATE TAB
+– ─────────────────────────────────────────────
 function PrestigeUI:CreateTab(config)
 config = config or {}
-local tabTitle = config.Title or ("Tab " .. (self._tabOrder + 1))
+local tabTitle = config.Title or (“Tab “ .. (self._tabOrder + 1))
 local tabIcon  = config.Icon
 local mobile   = self._mobile
 
-
+```
 self._tabOrder = self._tabOrder + 1
 
 local btn = inst("Frame", {
@@ -2409,7 +2380,7 @@ if not self._activeTab then self:_switchTab(tabTitle) end
 local tabObj = { _inner = inner, _order = 2, _win = self }
 setmetatable(tabObj, { __index = PrestigeUI._TabAPI })
 return tabObj
-
+```
 
 end
 
@@ -2439,9 +2410,9 @@ end
 self._activeTab = name
 end
 
--- ─────────────────────────────────────────────
---  TAB API
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  TAB API
+– ─────────────────────────────────────────────
 PrestigeUI._TabAPI = {}
 PrestigeUI._TabAPI.__index = PrestigeUI._TabAPI
 
@@ -2452,7 +2423,7 @@ end
 
 function PrestigeUI._TabAPI:AddLabel(text, opts)
 opts = opts or {}
-return inst("TextLabel", {
+return inst(“TextLabel”, {
 Size                   = UDim2.new(1, 0, 0, 0),
 AutomaticSize          = Enum.AutomaticSize.Y,
 BackgroundTransparency = 1,
@@ -2470,7 +2441,7 @@ Parent                 = self._inner,
 end
 
 function PrestigeUI._TabAPI:AddSeparator()
-return inst("Frame", {
+return inst(“Frame”, {
 Size             = UDim2.new(1, 0, 0, 1),
 BackgroundColor3 = T.Border,
 BorderSizePixel  = 0,
@@ -2486,7 +2457,7 @@ local isPrimary = opts.Primary or false
 local bgN = isPrimary and T.Primary or T.Surface
 local bgH = isPrimary and T.PrimaryHover or T.SurfaceHover
 
-
+```
 local btn = inst("TextButton", {
 	Size             = UDim2.new(1, 0, 0, opts.Height or 36),
 	BackgroundColor3 = bgN,
@@ -2523,14 +2494,14 @@ btn.MouseButton1Down:Connect(function() tw(btn, fast, { BackgroundColor3 = T.Sur
 btn.MouseButton1Up:Connect(function()   tw(btn, fast, { BackgroundColor3 = bgH }) end)
 btn.MouseButton1Click:Connect(function() if callback then callback() end end)
 return btn
-
+```
 
 end
 
 function PrestigeUI._TabAPI:AddInput(placeholder, callback, opts)
 opts = opts or {}
 
-
+```
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, opts.Height or 38),
 	BackgroundColor3 = T.Surface,
@@ -2574,16 +2545,16 @@ box.FocusLost:Connect(function(enter)
 	if callback then callback(box.Text, enter) end
 end)
 return box
-
+```
 
 end
 
 function PrestigeUI._TabAPI:AddToggle(label, default, callback, opts)
 opts  = opts or {}
 local state = default or false
-local style = opts.Style or self._win._toggleStyle or "box"
+local style = opts.Style or self._win._toggleStyle or “box”
 
-
+```
 local row = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 40),
 	BackgroundColor3 = T.Surface,
@@ -2699,7 +2670,7 @@ inst("TextButton", {
 end)
 
 return { Get = function() return state end, Set = set }
-
+```
 
 end
 
@@ -2709,7 +2680,7 @@ min   = min  or 0
 max   = max  or 100
 local value = math.clamp(default or min, min, max)
 
-
+```
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 58),
 	BackgroundColor3 = T.Surface,
@@ -2828,16 +2799,16 @@ return {
 		tw(knob, fast, { Position = UDim2.new(r, -6, 0.5, -6) })
 	end,
 }
-
+```
 
 end
 
 function PrestigeUI._TabAPI:AddDropdown(label, items, callback, opts)
 opts = opts or {}
-local selected = opts.Default or items[1] or ""
+local selected = opts.Default or items[1] or “”
 local open     = false
 
-
+```
 local HDR_H   = 36
 local ITEM_H  = 32
 local MAX_VIS = math.min(#items, 6)
@@ -3072,19 +3043,19 @@ return {
 		if itemBtns[v] then setActive(itemBtns[v], true) end
 	end,
 }
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  KEYBIND ELEMENT (in-tab display)
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  KEYBIND ELEMENT (in-tab display)
+– ─────────────────────────────────────────────
 function PrestigeUI._TabAPI:AddKeybind(label, defaultKey, callback, opts)
 opts = opts or {}
 local currentKey = defaultKey or Enum.KeyCode.Unknown
 local listening  = false
 
-
+```
 local row = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, 40),
 	BackgroundColor3 = T.Surface,
@@ -3172,18 +3143,18 @@ return {
 		keyLbl.Text = k.Name
 	end,
 }
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  TOAST
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  TOAST
+– ─────────────────────────────────────────────
 function PrestigeUI:Toast(message, kind, duration)
-kind     = kind     or "info"
+kind     = kind     or “info”
 duration = duration or 3
 
-
+```
 local colorMap = { success = T.Success, warning = T.Warning, error = T.Error, info = T.Info }
 local iconMap  = { success = "circle-check", warning = "triangle-alert", error = "circle-x", info = "info" }
 local accent   = colorMap[kind] or T.Info
@@ -3263,13 +3234,13 @@ task.delay(duration, function()
 	task.delay(0.25, function() if toast.Parent then toast:Destroy() end end)
 end)
 return toast
-
+```
 
 end
 
--- ─────────────────────────────────────────────
---  UTILITY
--- ─────────────────────────────────────────────
+– ─────────────────────────────────────────────
+–  UTILITY
+– ─────────────────────────────────────────────
 function PrestigeUI:Destroy()
 if self._acrylic then self._acrylic.Destroy() end
 if self.ScreenGui and self.ScreenGui.Parent then self.ScreenGui:Destroy() end
@@ -3284,62 +3255,3 @@ return names
 end
 
 return PrestigeUI
-
--- CALL THIS AFTER CREATING SCREEN GUI
--- applySmartUIScale(ScreenGui)
-
-
---// 🔥 FIXED SMART UI SCALE (auto + reliable)
-task.spawn(function()
-    local CoreGui = game:GetService("CoreGui")
-    local UIS = game:GetService("UserInputService")
-
-    local function getScale()
-        local size = workspace.CurrentCamera.ViewportSize
-        local minAxis = math.min(size.X, size.Y)
-
-        if UIS.TouchEnabled then
-            if minAxis <= 480 then
-                return 0.65
-            elseif minAxis <= 768 then
-                return 0.75
-            elseif minAxis <= 1024 then
-                return 0.85
-            else
-                return 0.9
-            end
-        else
-            return 1
-        end
-    end
-
-    local function apply()
-        for _, gui in ipairs(CoreGui:GetChildren()) do
-            if gui:IsA("ScreenGui") then
-                if not gui:FindFirstChild("AutoScale") then
-                    local scale = Instance.new("UIScale")
-                    scale.Name = "AutoScale"
-                    scale.Scale = getScale()
-                    scale.Parent = gui
-
-                    workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
-                        scale.Scale = getScale()
-                    end)
-                end
-            end
-        end
-    end
-
-    -- wait for UI to fully load
-    task.wait(1)
-    apply()
-
-    -- re-apply if new UI appears
-    CoreGui.ChildAdded:Connect(function(child)
-        if child:IsA("ScreenGui") then
-            task.wait(0.2)
-            apply()
-        end
-    end)
-end)
-
