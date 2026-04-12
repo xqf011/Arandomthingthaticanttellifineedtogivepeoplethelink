@@ -214,12 +214,12 @@ end
 --  ACRYLIC / DOF (unchanged internals)
 -- ─────────────────────────────────────────────
 local function _map(value, inMin, inMax, outMin, outMax)
-return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
+return (value - inMin) _ (outMax - outMin) / (inMax - inMin) + outMin
 end
 
 local function _viewportPointToWorld(location, distance)
 local unitRay = Camera:ScreenPointToRay(location.X, location.Y)
-return unitRay.Origin + unitRay.Direction * distance
+return unitRay.Origin + unitRay.Direction _ distance
 end
 
 local function _getOffset()
@@ -1094,7 +1094,7 @@ end
 
 function PrestigeUI:_buildWindow(config, pGui, title, W, H, mobile)
 local gui = inst("ScreenGui", {
-Name           = "PrestigeUI*" .. title,
+Name           = "PrestigeUI_" .. title,
 ResetOnSpawn   = false,
 ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 Parent         = pGui,
@@ -1638,7 +1638,7 @@ local dateLbl = inst("TextLabel", {
 })
 
 local function updateClock()
-	local t = os.date("*t")
+	local t = os.date("_t")
 	clockLbl.Text = string.format("%02d:%02d:%02d", t.hour, t.min, t.sec)
 	dateLbl.Text  = string.format("%02d/%02d/%04d", t.day, t.month, t.year)
 end
@@ -1717,7 +1717,7 @@ for _, v in ipairs(config.UnsupportedExecutors or {}) do if v:lower() == execNam
 local gameName = "Unknown"
 pcall(function() gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
 
-local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing()*1000)).."ms", T.Info)
+local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing()_1000)).."ms", T.Info)
 local playersChipLbl = mkChip(2, #Players:GetPlayers().."/"..Players.MaxPlayers, T.Success)
 mkChip(3, gameName, T.Primary)
 mkChip(4, execName, execStatusColor)
@@ -1726,7 +1726,7 @@ if mobile then mkChip(5, "Mobile", T.Warning) end
 task.spawn(function()
 	while panel.Parent do
 		pcall(function()
-			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing()*1000)).."ms"
+			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing()_1000)).."ms"
 			playersChipLbl.Text = #Players:GetPlayers().."/"..Players.MaxPlayers
 		end)
 		task.wait(3)
@@ -2751,7 +2751,7 @@ corner(knob, 7)
 local dragging = false
 local function update(x)
 	local rel = math.clamp((x - track.AbsolutePosition.X) / track.AbsoluteSize.X, 0, 1)
-	value = math.floor(min + rel * (max - min) + 0.5)
+	value = math.floor(min + rel _ (max - min) + 0.5)
 	valLbl.Text = tostring(value)
 	tw(fill, fast, { Size     = UDim2.new(rel, 0, 1, 0) })
 	tw(knob, fast, { Position = UDim2.new(rel, -6, 0.5, -6) })
@@ -2807,7 +2807,7 @@ local open     = false
 local HDR_H   = 36
 local ITEM_H  = 32
 local MAX_VIS = math.min(#items, 6)
-local LIST_H  = MAX_VIS * ITEM_H + 8
+local LIST_H  = MAX_VIS _ ITEM_H + 8
 
 local container = inst("Frame", {
 	Size             = UDim2.new(1, 0, 0, HDR_H),
