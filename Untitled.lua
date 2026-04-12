@@ -1263,8 +1263,8 @@ local function mkTitleBtn(xOff, iconName, fallbackText, accentOnHover)
 	return clk, btn
 end
 
-local closeClk, * = mkTitleBtn(-36, "x", "✕", T.Error)
-local minClk,   * = mkTitleBtn(-70, "minus", "--", T.SurfaceActive)
+local closeClk, _ = mkTitleBtn(-36, "x", "✕", T.Error)
+local minClk,   _ = mkTitleBtn(-70, "minus", "--", T.SurfaceActive)
 
 -- Keybind indicator label in titlebar (desktop only)
 if not mobile then
@@ -1717,7 +1717,7 @@ for _, v in ipairs(config.UnsupportedExecutors or {}) do if v:lower() == execNam
 local gameName = "Unknown"
 pcall(function() gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
 
-local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing()_1000)).."ms", T.Info)
+local pingChipLbl    = mkChip(1, math.floor((Players.LocalPlayer:GetNetworkPing() * 1000)).."ms", T.Info)
 local playersChipLbl = mkChip(2, #Players:GetPlayers().."/"..Players.MaxPlayers, T.Success)
 mkChip(3, gameName, T.Primary)
 mkChip(4, execName, execStatusColor)
@@ -1726,7 +1726,7 @@ if mobile then mkChip(5, "Mobile", T.Warning) end
 task.spawn(function()
 	while panel.Parent do
 		pcall(function()
-			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing()_1000)).."ms"
+			pingChipLbl.Text    = math.floor((Players.LocalPlayer:GetNetworkPing() * 1000)).."ms"
 			playersChipLbl.Text = #Players:GetPlayers().."/"..Players.MaxPlayers
 		end)
 		task.wait(3)
@@ -2031,7 +2031,7 @@ task.spawn(function()
 		local pages = Players:GetFriendsAsync(localPlayer.UserId)
 		local count = 0
 		repeat
-			for * in ipairs(pages:GetCurrentPage()) do count = count + 1 end
+			for _ in ipairs(pages:GetCurrentPage()) do count = count + 1 end
 			if not pages.IsFinished then pages:AdvanceToNextPageAsync() end
 		until pages.IsFinished
 		realTotal = count
