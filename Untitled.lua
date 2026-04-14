@@ -653,7 +653,7 @@ local isMobile  = UserInputService.TouchEnabled and not UserInputService.Keyboar
 local scale
 if isMobile then
 
-local targetW = longEdge * 0.92   
+local targetW = longEdge * 0.92  
 scale = math.clamp(targetW / 760, 0.38, 1.0)
 else
 
@@ -799,7 +799,6 @@ end)
 
 makeDraggable(win, tb)
 
-
 local keybind = config.Keybind or Enum.KeyCode.RightShift
 local guiVisible = true
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
@@ -879,7 +878,6 @@ self._activeTab   = nil
 self._toggleStyle = (config.ToggleStyle == "basic") and "basic" or "box"
 self._currentTheme = config.Theme or "Ocean"
 applyTheme(self._currentTheme)
-
 
 local winStroke = win:FindFirstChildWhichIsA("UIStroke")
 _onThemeChange(function(t)
@@ -2685,7 +2683,6 @@ listLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 panel.CanvasSize = UDim2.new(0, 0, 0, listLayout.AbsoluteContentSize.Y + 40)
 end)
 
-
 local headerFrame = inst("Frame", {
 Name                   = "PanelHeader",
 Size                   = UDim2.new(1, 0, 0, 26),
@@ -2719,7 +2716,6 @@ ZIndex           = 4,
 Parent           = inner,
 })
 
-
 inst("TextLabel", {
 Size                   = UDim2.new(1, 0, 0, 16),
 BackgroundTransparency = 1,
@@ -2732,7 +2728,6 @@ LayoutOrder            = 2,
 ZIndex                 = 4,
 Parent                 = inner,
 })
-
 
 local themeNames = {"Ocean", "Nebula", "Sky", "Sunset", "Forest", "Midnight", "Rose", "Gold"}
 local themeAccents = {
@@ -2791,65 +2786,61 @@ local accent = themeAccents[name]
 local isActive = (self._currentTheme == name)
 
 local card = inst("TextButton", {
-	BackgroundColor3 = isActive and Color3.fromRGB(40, 30, 60) or T.Surface,
-	BorderSizePixel  = 0,
-	Text             = "",
-	AutoButtonColor  = false,
-	LayoutOrder      = i,
-	ZIndex           = 5,
-	Parent           = pickerGrid,
+BackgroundColor3 = isActive and Color3.fromRGB(40, 30, 60) or T.Surface,
+BorderSizePixel  = 0,
+Text             = "",
+AutoButtonColor  = false,
+LayoutOrder      = i,
+ZIndex           = 5,
+Parent           = pickerGrid,
 })
 corner(card, 8)
 local cardStroke = inst("UIStroke", {
-	Color     = isActive and accent or T.Border,
-	Thickness = isActive and 2 or 1,
-	Parent    = card,
+Color     = isActive and accent or T.Border,
+Thickness = isActive and 2 or 1,
+Parent    = card,
 })
-
--- Color swatch strip at top
 local swatch = inst("Frame", {
-	Size             = UDim2.new(1, 0, 0, 28),
-	BackgroundColor3 = accent,
-	BorderSizePixel  = 0,
-	ZIndex           = 6,
-	Parent           = card,
+Size             = UDim2.new(1, 0, 0, 28),
+BackgroundColor3 = accent,
+BorderSizePixel  = 0,
+ZIndex           = 6,
+Parent           = card,
 })
 local swatchCorner = Instance.new("UICorner")
 swatchCorner.CornerRadius = UDim.new(0, 8)
 swatchCorner.Parent = swatch
--- flat bottom on swatch
 inst("Frame", {
-	Size             = UDim2.new(1, 0, 0, 10),
-	Position         = UDim2.new(0, 0, 1, -10),
-	BackgroundColor3 = accent,
-	BorderSizePixel  = 0,
-	ZIndex           = 6,
-	Parent           = swatch,
+Size             = UDim2.new(1, 0, 0, 10),
+Position         = UDim2.new(0, 0, 1, -10),
+BackgroundColor3 = accent,
+BorderSizePixel  = 0,
+ZIndex           = 6,
+Parent           = swatch,
 })
 
--- Theme name label
+
 inst("TextLabel", {
-	Size                   = UDim2.new(1, -8, 0, 18),
-	Position               = UDim2.new(0, 4, 0, 32),
-	BackgroundTransparency = 1,
-	Text                   = name,
-	TextColor3             = T.TextPrimary,
-	TextSize               = 11,
-	Font                   = Enum.Font.GothamMedium,
-	TextXAlignment         = Enum.TextXAlignment.Center,
-	ZIndex                 = 6,
-	Parent                 = card,
+Size                   = UDim2.new(1, -8, 0, 18),
+Position               = UDim2.new(0, 4, 0, 32),
+BackgroundTransparency = 1,
+Text                   = name,
+TextColor3             = T.TextPrimary,
+TextSize               = 11,
+Font                   = Enum.Font.GothamMedium,
+TextXAlignment         = Enum.TextXAlignment.Center,
+ZIndex                 = 6,
+Parent                 = card,
 })
 
--- Checkmark for active
 local check = inst("Frame", {
-	Size             = UDim2.new(0, 16, 0, 16),
-	Position         = UDim2.new(1, -20, 0, 4),
-	BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-	BorderSizePixel  = 0,
-	Visible          = isActive,
-	ZIndex           = 7,
-	Parent           = card,
+Size             = UDim2.new(0, 16, 0, 16),
+Position         = UDim2.new(1, -20, 0, 4),
+BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+BorderSizePixel  = 0,
+Visible          = isActive,
+ZIndex           = 7,
+Parent           = card,
 })
 corner(check, 8)
 mkIcon(check, "check", 10, accent, 8, Vector2.new(0.5, 0.5), UDim2.new(0.5, 0, 0.5, 0))
@@ -2857,24 +2848,22 @@ mkIcon(check, "check", 10, accent, 8, Vector2.new(0.5, 0.5), UDim2.new(0.5, 0, 0
 themeBtns[name] = { card = card, check = check }
 
 card.MouseEnter:Connect(function()
-	if self_ref._currentTheme ~= name then
-		tw(card, fast, { BackgroundColor3 = T.SurfaceHover })
-	end
+if self_ref._currentTheme ~= name then
+tw(card, fast, { BackgroundColor3 = T.SurfaceHover })
+end
 end)
 card.MouseLeave:Connect(function()
-	if self_ref._currentTheme ~= name then
-		tw(card, fast, { BackgroundColor3 = T.Surface })
-	end
+if self_ref._currentTheme ~= name then
+tw(card, fast, { BackgroundColor3 = T.Surface })
+end
 end)
 card.MouseButton1Click:Connect(function()
-	self_ref._currentTheme = name
-	applyTheme(name)
-	refreshThemeBtns()
+self_ref._currentTheme = name
+applyTheme(name)
+refreshThemeBtns()
 end)
 
-
 end
-
 
 inst("Frame", {
 Name             = "Divider2",
@@ -2951,13 +2940,11 @@ ZIndex                 = 6,
 Parent                 = keybindPill,
 })
 
-
 _onThemeChange(function(t)
 keybindRow.BackgroundColor3 = t.Surface
 keybindPill.BackgroundColor3 = t.SurfaceActive
 keybindLbl.TextColor3 = t.Primary
 end)
-
 
 local tabData = {
 name      = TAB_TITLE,
@@ -2996,8 +2983,6 @@ end
 self.ScreenGui:Destroy()
 end
 
-
- 
 function PrestigeUI.ShowStartup(cfg, onDone)
 cfg = cfg or {}
 local title    = cfg.Title   or "PrestigeUI"
@@ -3006,11 +2991,6 @@ local duration = cfg.Duration or 3
 local themeName = cfg.Theme or "Ocean"
 local thm = Themes[themeName] or Themes.Ocean
 
-PrestigeUI.ShowStartup({Title="MyScript", Version="v1.0",
-Duration=3, Theme="Ocean" }, 
-function()
-end)
-
 local pGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 local sg = Instance.new("ScreenGui")
 sg.Name           = "PrestigeUI_Startup"
@@ -3018,7 +2998,6 @@ sg.ResetOnSpawn   = false
 sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 sg.Parent         = pGui
 
--- Full-screen dark overlay
 local overlay = Instance.new("Frame")
 overlay.Size                   = UDim2.fromScale(1, 1)
 overlay.BackgroundColor3       = Color3.fromRGB(4, 4, 10)
@@ -3027,7 +3006,6 @@ overlay.BorderSizePixel        = 0
 overlay.ZIndex                 = 1
 overlay.Parent                 = sg
 
--- Animated accent ring
 local ringSize = 90
 local ring = Instance.new("Frame")
 ring.Size            = UDim2.new(0, ringSize, 0, ringSize)
@@ -3042,7 +3020,6 @@ local ringCorner = Instance.new("UICorner")
 ringCorner.CornerRadius = UDim.new(1, 0)
 ringCorner.Parent = ring
 
--- Inner dot
 local dot = Instance.new("Frame")
 dot.Size            = UDim2.new(0, ringSize - 18, 0, ringSize - 18)
 dot.AnchorPoint     = Vector2.new(0.5, 0.5)
@@ -3055,7 +3032,6 @@ local dotCorner = Instance.new("UICorner")
 dotCorner.CornerRadius = UDim.new(1, 0)
 dotCorner.Parent = dot
 
--- Title label
 local titleLbl = Instance.new("TextLabel")
 titleLbl.Size                   = UDim2.new(0, 400, 0, 40)
 titleLbl.AnchorPoint            = Vector2.new(0.5, 0)
@@ -3070,7 +3046,6 @@ titleLbl.TextTransparency       = 1
 titleLbl.ZIndex                 = 2
 titleLbl.Parent                 = overlay
 
--- Version label
 local verLbl = Instance.new("TextLabel")
 verLbl.Size                   = UDim2.new(0, 400, 0, 20)
 verLbl.AnchorPoint            = Vector2.new(0.5, 0)
@@ -3085,7 +3060,6 @@ verLbl.TextTransparency       = 1
 verLbl.ZIndex                 = 2
 verLbl.Parent                 = overlay
 
--- Progress bar container
 local barW = 200
 local barCont = Instance.new("Frame")
 barCont.Size             = UDim2.new(0, barW, 0, 3)
@@ -3113,43 +3087,42 @@ local twInfo   = TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection
 local twSlow   = TweenInfo.new(duration * 0.85, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 local twFade   = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
--- Pulse ring animation
 local function pulseRing()
-	TweenService:Create(ring, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
-		BackgroundTransparency = 0.65,
-		Size = UDim2.new(0, ringSize + 8, 0, ringSize + 8),
-	}):Play()
+TweenService:Create(ring, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+BackgroundTransparency = 0.65,
+Size = UDim2.new(0, ringSize + 8, 0, ringSize + 8),
+}):Play()
 end
 
 task.spawn(function()
-	task.wait(0.15)
-	-- Fade in text
-	TweenService:Create(titleLbl, twInfo, { TextTransparency = 0 }):Play()
-	TweenService:Create(verLbl,   twInfo, { TextTransparency = 0 }):Play()
-	pulseRing()
-	-- Progress bar fill
-	TweenService:Create(barFill, twSlow, { Size = UDim2.new(1, 0, 1, 0) }):Play()
+task.wait(0.15)
 
-	task.wait(duration)
+TweenService:Create(titleLbl, twInfo, { TextTransparency = 0 }):Play()
+TweenService:Create(verLbl,   twInfo, { TextTransparency = 0 }):Play()
+pulseRing()
 
-	-- Fade out everything
-	TweenService:Create(overlay, twFade, { BackgroundTransparency = 1 }):Play()
-	TweenService:Create(titleLbl, twFade, { TextTransparency = 1 }):Play()
-	TweenService:Create(verLbl,   twFade, { TextTransparency = 1 }):Play()
-	TweenService:Create(barCont,  twFade, { BackgroundTransparency = 1 }):Play()
-	TweenService:Create(barFill,  twFade, { BackgroundTransparency = 1 }):Play()
-	TweenService:Create(ring,     twFade, { BackgroundTransparency = 1 }):Play()
-	TweenService:Create(dot,      twFade, { BackgroundTransparency = 1 }):Play()
+TweenService:Create(barFill, twSlow, { Size = UDim2.new(1, 0, 1, 0) }):Play()
 
-	task.wait(0.55)
-	sg:Destroy()
-	if onDone then onDone() end
+task.wait(duration)
+
+-- Fade out everything
+TweenService:Create(overlay, twFade, { BackgroundTransparency = 1 }):Play()
+TweenService:Create(titleLbl, twFade, { TextTransparency = 1 }):Play()
+TweenService:Create(verLbl,   twFade, { TextTransparency = 1 }):Play()
+TweenService:Create(barCont,  twFade, { BackgroundTransparency = 1 }):Play()
+TweenService:Create(barFill,  twFade, { BackgroundTransparency = 1 }):Play()
+TweenService:Create(ring,     twFade, { BackgroundTransparency = 1 }):Play()
+TweenService:Create(dot,      twFade, { BackgroundTransparency = 1 }):Play()
+
+task.wait(0.55)
+sg:Destroy()
+if onDone then onDone() end
+
+
 end)
-
 
 end
 
-    
 function PrestigeUI.PromptKey(cfg, onResult)
 cfg = cfg or {}
 local validKey  = cfg.Key or ""
@@ -3158,8 +3131,8 @@ local themeName = cfg.Theme or "Ocean"
 local thm = Themes[themeName] or Themes.Ocean
 
 PrestigeUI.PromptKey({ Key="MYKEY-1234", Title="MyScript",
-    Theme="Ocean" }, function(success)
-    if success then
+Theme="Ocean" }, function(success)
+if success then
 end
 end)
 
@@ -3170,7 +3143,7 @@ sg.ResetOnSpawn   = false
 sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 sg.Parent         = pGui
 
--- Blurred dark overlay
+
 local overlay = Instance.new("Frame")
 overlay.Size                   = UDim2.fromScale(1, 1)
 overlay.BackgroundColor3       = Color3.fromRGB(4, 4, 10)
@@ -3179,7 +3152,6 @@ overlay.BorderSizePixel        = 0
 overlay.ZIndex                 = 1
 overlay.Parent                 = sg
 
--- Card
 local cardW, cardH = 360, 220
 local card = Instance.new("Frame")
 card.Size            = UDim2.new(0, cardW, 0, cardH)
@@ -3197,7 +3169,7 @@ cardStroke.Color     = thm.WindowBorder
 cardStroke.Thickness = 1
 cardStroke.Parent    = card
 
--- Accent top bar
+
 local accentBar = Instance.new("Frame")
 accentBar.Size             = UDim2.new(1, 0, 0, 3)
 accentBar.BackgroundColor3 = thm.Primary
@@ -3207,7 +3179,7 @@ accentBar.Parent           = card
 local abCorner = Instance.new("UICorner")
 abCorner.CornerRadius = UDim.new(0, 12)
 abCorner.Parent = accentBar
--- flatten bottom corners of accent bar
+
 local abFlat = Instance.new("Frame")
 abFlat.Size             = UDim2.new(1, 0, 0.5, 0)
 abFlat.Position         = UDim2.new(0, 0, 0.5, 0)
@@ -3216,12 +3188,12 @@ abFlat.BorderSizePixel  = 0
 abFlat.ZIndex           = 3
 abFlat.Parent           = accentBar
 
--- Title
+
 local titleLbl = Instance.new("TextLabel")
 titleLbl.Size                   = UDim2.new(1, -20, 0, 28)
 titleLbl.Position               = UDim2.new(0, 10, 0, 16)
 titleLbl.BackgroundTransparency = 1
-titleLbl.Text                   = title .. " -- Key Required"
+titleLbl.Text                   = title .. " â Key Required"
 titleLbl.TextColor3             = thm.TextPrimary
 titleLbl.TextSize               = 15
 titleLbl.Font                   = Enum.Font.GothamBold
@@ -3241,7 +3213,7 @@ subLbl.TextXAlignment         = Enum.TextXAlignment.Center
 subLbl.ZIndex                 = 3
 subLbl.Parent                 = card
 
--- Input box container
+
 local inputCont = Instance.new("Frame")
 inputCont.Size             = UDim2.new(1, -28, 0, 38)
 inputCont.Position         = UDim2.new(0, 14, 0, 74)
@@ -3261,7 +3233,7 @@ local keyBox = Instance.new("TextBox")
 keyBox.Size                   = UDim2.new(1, -16, 1, 0)
 keyBox.Position               = UDim2.new(0, 8, 0, 0)
 keyBox.BackgroundTransparency = 1
-keyBox.PlaceholderText        = "Enter key..."
+keyBox.PlaceholderText        = "Enter keyâ¦"
 keyBox.PlaceholderColor3      = thm.TextMuted
 keyBox.Text                   = ""
 keyBox.TextColor3             = thm.TextPrimary
@@ -3272,13 +3244,12 @@ keyBox.ZIndex                 = 4
 keyBox.Parent                 = inputCont
 
 keyBox.Focused:Connect(function()
-	TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.BorderFocus }):Play()
+TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.BorderFocus }):Play()
 end)
 keyBox.FocusLost:Connect(function()
-	TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Border }):Play()
+TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Border }):Play()
 end)
 
--- Status label (hidden until attempt)
 local statusLbl = Instance.new("TextLabel")
 statusLbl.Size                   = UDim2.new(1, -28, 0, 16)
 statusLbl.Position               = UDim2.new(0, 14, 0, 118)
@@ -3291,7 +3262,7 @@ statusLbl.TextXAlignment         = Enum.TextXAlignment.Center
 statusLbl.ZIndex                 = 3
 statusLbl.Parent                 = card
 
--- Submit button
+
 local submitBtn = Instance.new("TextButton")
 submitBtn.Size             = UDim2.new(1, -28, 0, 36)
 submitBtn.Position         = UDim2.new(0, 14, 0, 140)
@@ -3309,50 +3280,55 @@ sbCorner.CornerRadius = UDim.new(0, 6)
 sbCorner.Parent = submitBtn
 
 submitBtn.MouseEnter:Connect(function()
-	TweenService:Create(submitBtn, TweenInfo.new(0.12), { BackgroundColor3 = thm.PrimaryHover }):Play()
+TweenService:Create(submitBtn, TweenInfo.new(0.12), { BackgroundColor3 = thm.PrimaryHover }):Play()
 end)
 submitBtn.MouseLeave:Connect(function()
-	TweenService:Create(submitBtn, TweenInfo.new(0.12), { BackgroundColor3 = thm.Primary }):Play()
+TweenService:Create(submitBtn, TweenInfo.new(0.12), { BackgroundColor3 = thm.Primary }):Play()
 end)
 
 local attempts = 0
 local function tryKey()
-	local entered = keyBox.Text
-	if entered == validKey then
-		statusLbl.Text       = "Access granted!"
-		statusLbl.TextColor3 = thm.Success
-		submitBtn.Text       = "..."
-		task.wait(0.6)
-		TweenService:Create(overlay, TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
-		TweenService:Create(card,    TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
-		task.wait(0.4)
-		sg:Destroy()
-		if onResult then onResult(true) end
-	else
-		attempts = attempts + 1
-		statusLbl.Text       = "Invalid key. Attempt " .. attempts
-		statusLbl.TextColor3 = thm.Error
-		TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Error }):Play()
-		-- Shake animation
-		local origPos = card.Position
-		for _, offset in ipairs({8, -8, 5, -5, 2, -2, 0}) do
-			card.Position = UDim2.new(origPos.X.Scale, origPos.X.Offset + offset, origPos.Y.Scale, origPos.Y.Offset)
-			task.wait(0.04)
-		end
-		task.wait(0.8)
-		TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Border }):Play()
-	end
+local entered = keyBox.Text
+if entered == validKey then
+statusLbl.Text       = "Access granted!"
+statusLbl.TextColor3 = thm.Success
+submitBtn.Text       = "â¦"
+task.wait(0.6)
+TweenService:Create(overlay, TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
+TweenService:Create(card,    TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
+task.wait(0.4)
+sg:Destroy()
+if onResult then onResult(true) end
+else
+attempts = attempts + 1
+statusLbl.Text       = "Invalid key. Attempt " .. attempts
+statusLbl.TextColor3 = thm.Error
+TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Error }):Play()
+
+local origPos = card.Position
+for _, offset in ipairs({8, -8, 5, -5, 2, -2, 0}) do
+card.Position = UDim2.new(origPos.X.Scale, origPos.X.Offset + offset, origPos.Y.Scale, origPos.Y.Offset)
+task.wait(0.04)
+end
+task.wait(0.8)
+TweenService:Create(icStroke, TweenInfo.new(0.12), { Color = thm.Border }):Play()
+end
 end
 
 submitBtn.MouseButton1Click:Connect(tryKey)
 keyBox.FocusLost:Connect(function(enter)
-	if enter then tryKey() end
+if enter then tryKey() end
 end)
 
--- Fade card in
+
 card.BackgroundTransparency = 1
 TweenService:Create(card, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-	BackgroundTransparency = 0
+BackgroundTransparency = 0
 }):Play()
 end
+
+PrestigeUI.ShowStartup({Title="MyScript", Version="v1.0",
+Duration=3, Theme="Ocean" },
+function()
+end)
 return PrestigeUI
